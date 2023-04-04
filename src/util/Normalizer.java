@@ -1,6 +1,5 @@
 package util;
 import java.util.*;
-import java.sql.Array;
 
 public class Normalizer {
     private static String normalize(String cell){
@@ -34,18 +33,17 @@ public class Normalizer {
         //Step 1: Break down every row into cells
         //Step 2: call normalize to normalize each cell
         //Step 3: merge normalized cells with the same separator that you used to break them down.
+        String separator = fileFormat.equalsIgnoreCase("txt") ? "\t" : ",";
         String[] cells;
-        String normalizedRow = "";
+        ArrayList<String> normalizedRow = new ArrayList<>();
         ArrayList<String> normalizedRows = new ArrayList<>();
         for(String row: rows) {
-            cells = row.split(fileFormat.equalsIgnoreCase("txt") ? "\t" : ",");
-            for ( int i = 0; i < cells.length; i++ ){
-                normalizedRow = normalizedRow + normalize(cells[i]);
-                if( i < cells.length-1 )
-                    normalizedRow = normalizedRow + (fileFormat.equalsIgnoreCase("txt")?"\t": ",");
+            cells = row.split(separator);
+            for (String cell: cells){
+                normalizedRow.add(normalize(cell));
             }
-            normalizedRows.add(normalizedRow);
-            normalizedRow = "";
+            normalizedRows.add(String.join(separator,normalizedRow));
+            normalizedRow.clear();
         }
         return normalizedRows;
     }
