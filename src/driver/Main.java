@@ -49,8 +49,11 @@ public class Main {
 
                 if (command.equals("quit"))
                     break;
+                else if (command.equals("close")) {
+                    in.close();
+                    out.close();
 
-                else if (command.startsWith("convert")) {
+                } else if (command.startsWith("convert")) {
 
                     String[] tokens = command.split(" ");
 
